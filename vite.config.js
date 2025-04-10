@@ -1,10 +1,20 @@
+import { createServerModuleRunner } from "vite"
 
 export default {
+  plugins: [
+    {
+      name: 'debug-react',
+      async configureServer (server) {
+        const runner = createServerModuleRunner(server.environments.rsc)
+        console.log(await runner.import('/rsc'))
+      }
+    }
+  ],
   root: import.meta.dirname,
   environments: {
     rsc: {
       resolve: {
-        conditions: ['react-server'],
+        conditions: ['react-server', 'node'],
         noExternal: true,
       },
       dev: {
